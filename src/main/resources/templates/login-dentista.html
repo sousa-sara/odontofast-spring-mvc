@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="icon" type="image/png" th:href="@{/assets/brand/icone.png}">
+    <link rel="stylesheet" href="/assets/dist/css/login.css">
+</head>
+<body>
+<div class="login-container">
+    <h2>Login</h2>
+    <!-- Logo -->
+    <img th:src="@{/assets/brand/logo-odontofast.png}" alt="Logo da Odontofast" class="logo">
+    <form th:action="@{/dentista/login}" method="post">
+        <label for="cro">CRO:</label>
+        <input type="text" id="cro" name="cro" required>
+
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required>
+
+        <button type="submit" name="acao" value="entrar">Entrar</button>
+    </form>
+    <form th:action="@{/dentista/cadastro}" method="post">
+        <button class="botao-signup" type="submit" name="acao" value="cadastrar">Cadastrar-se</button>
+    </form>
+    <p th:if="${erro}" class="error" th:text="${erro}"></p>
+</div>
+</body>
+</html>

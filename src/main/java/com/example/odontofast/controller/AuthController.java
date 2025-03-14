@@ -3,13 +3,15 @@ import com.example.odontofast.dto.DentistaCadastroDTO;
 import com.example.odontofast.model.Dentista;
 import com.example.odontofast.model.Especialidade;
 import com.example.odontofast.service.DentistaService;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/api/dentista")
+@Controller
+@RequestMapping("/dentista")
 public class AuthController {
 
     // Declaração de uma variável final para armazenar a instância do serviço de Dentista.
@@ -23,10 +25,15 @@ public class AuthController {
         this.dentistaService = dentistaService;
     }
 
-    // Endpoint para cadastro de dentista
+    // Tela de login de dentista
+    @GetMapping("/cadastro")
+    public String exibirCadastroDentista() {
+        return "cadastro-dentista";  // A view será a página cadastro.html
+    }
+
     @PostMapping("/cadastro")
-    public ResponseEntity<String> cadastrarDentista(@RequestBody DentistaCadastroDTO dentistaCadastroDTO) {
-        // Convertendo o DTO para a entidade Dentista antes de salvar
+    public ModelAndView cadastrarDentista(@ModelAttribute("dentista") DentistaCadastroDTO dentistaCadastroDTO) {
+        // Criação do objeto Dentista
         Dentista dentista = new Dentista();
         dentista.setNomeDentista(dentistaCadastroDTO.getNomeDentista());
         dentista.setSenhaDentista(dentistaCadastroDTO.getSenhaDentista());
@@ -40,21 +47,32 @@ public class AuthController {
         especialidade.setTipoEspecialidade(dentistaCadastroDTO.getEspecialidade().getTipoEspecialidade());
         dentista.setEspecialidade(especialidade);
 
-        // Salvar o dentista no banco de dados
+        // Salva o dentista no banco de dados
         dentistaService.salvarDentista(dentista);
 
-        return ResponseEntity.ok("Cadastro bem-sucedido!");
+        // Redireciona para a página de login com mensagem de sucesso
+        ModelAndView modelAndView = new ModelAndView("login-dentista");
+        modelAndView.addObject("sucesso", "Cadastro bem-sucedido! Faça login.");
+        return modelAndView;
+
     }
 
-    // Endpoint para login de dentista (autenticação)
+    // Tela de login de dentista
+    @GetMapping("/login")
+    public String exibirLoginDentista() {
+        return "login-dentista";  // A view será a página login.html
+    }
+
+    // Endpoint de login (o formulário será enviado via POST)
     @PostMapping("/login")
-    public ResponseEntity<String> loginDentista(@RequestParam String cro, @RequestParam String senha) {
+    public String loginDentista(@RequestParam String cro, @RequestParam String senha, Model model) {
         Optional<Dentista> dentista = dentistaService.autenticarDentista(cro, senha);
 
         if (dentista.isPresent()) {
-            return ResponseEntity.ok("Login bem-sucedido!");
+            return "home";  // Sucesso, redireciona para a página principal (home)
         } else {
-            return ResponseEntity.status(401).body("Credenciais inválidas!");
+            model.addAttribute("erro", "Credenciais inválidas!");
+            return "login-dentista";  // Retorna para a tela de login com erro
         }
     }
 }
