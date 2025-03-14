@@ -55,6 +55,7 @@ public class AuthController {
         modelAndView.addObject("sucesso", "Cadastro bem-sucedido! Faça login.");
         return modelAndView;
     }
+
     // Tela de login de dentista
     @GetMapping("/login")
     public String exibirLoginDentista() {
