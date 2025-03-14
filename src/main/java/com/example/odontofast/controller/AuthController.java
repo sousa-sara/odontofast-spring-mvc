@@ -54,7 +54,6 @@ public class AuthController {
         ModelAndView modelAndView = new ModelAndView("login-dentista");
         modelAndView.addObject("sucesso", "Cadastro bem-sucedido! Faça login.");
         return modelAndView;
-
     }
 
     // Tela de login de dentista
