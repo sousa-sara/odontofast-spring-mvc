@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cadastro de Dentista</title>
+</head>
+<body>
+<h2>Cadastro de Dentista</h2>
+<form action="/dentista/cadastro" method="post">
+    <label>Nome:</label>
+    <input type="text" name="nomeDentista" required>
+    <br>
+    <label>CRO:</label>
+    <input type="text" name="cro" required>
+    <br>
+    <label>Telefone:</label>
+    <input type="text" name="telefoneDentista">
+    <br>
+    <label>Email:</label>
+    <input type="email" name="emailDentista" required>
+    <br>
+    <label>Especialidade:</label>
+    <select name="especialidade">
+        <option th:each="esp : ${especialidades}" th:value="${esp.idEspecialidade}" th:text="${esp.tipoEspecialidade}"></option>
+    </select>
+    <br>
+    <button type="submit">Cadastrar</button>
+</form>
+</body>
+</html>
