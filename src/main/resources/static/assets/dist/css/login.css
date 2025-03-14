@@ -1,0 +1,86 @@
+/* Resetando margens e padding para um layout consistente */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Corpo da página */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f1f1f1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Container de login */
+.login-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: left;
+}
+
+/* Ajuste para centralizar o logo */
+.logo {
+  width: 150px;
+  display: block;
+  margin: 0 auto 20px;
+}
+
+/* Classe para botão de cadastrar */
+.botao-signup {
+  margin-top: 16px;
+}
+
+/* Estilo para o título */
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+/* Estilo para o formulário */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Estilo para os campos de entrada */
+input[type="text"], input[type="password"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+/* Estilo para o botão de login */
+button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+button {
+  background-color: #0056b3;
+}
+
+/* Estilo para a mensagem de erro */
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
