@@ -139,7 +139,7 @@ A aplicação será integrada a um aplicativo mobile para pacientes, permitindo 
 - **Motivo**: Gerencia dependências e build.
 
 ### Diagrama Banco de Dados
-![Modelo](images-readme/modelo.png)
+![Modelo](images-readme/modelo.jpg)
 
 
 ## Link do Vídeo Explicativo e Demonstrativo
