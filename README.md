@@ -139,12 +139,14 @@ A aplicação será integrada a um aplicativo mobile para pacientes, permitindo 
 - **Motivo**: Gerencia dependências e build.
 
 ### Diagrama Banco de Dados
+- Modelo Lógico
+  
 ![Modelo](images-readme/modelo.jpg)
 
-
 ## Link do Vídeo Explicativo e Demonstrativo
-
+[Clique aqui](https://drive.google.com/file/d/1RHPD-TXph08g_gEtoAT0D4lvrMLDHns1/view?usp=sharing)
+   
 ## Integrantes Odontofast
-- [Felipe Amador] - [RM553528]
-- [Leonardo Oliveira] - [RM554024]
-- [Sara Sousa] - [RM552656]
+- Felipe Amador - RM553528
+- Leonardo Oliveira - RM554024
+- Sara Sousa - RM552656
