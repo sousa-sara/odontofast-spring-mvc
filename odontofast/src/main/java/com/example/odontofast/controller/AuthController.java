@@ -85,95 +85,49 @@ public class AuthController {
         return "cadastro-dentista"; // Retorna a página de cadastro
     }
 
-    // Processar o cadastro do dentista
-    // CREATE CADASTRO V1 ---------------
-    // @PostMapping("/cadastro")
-    // public String cadastrarDentista(@ModelAttribute DentistaCadastroDTO
-    // dentistaCadastroDTO, Model model) {
-    // try {
-    // Dentista dentista = new Dentista();
-    // dentista.setNomeDentista(dentistaCadastroDTO.getNomeDentista());
-    // dentista.setSenhaDentista(dentistaCadastroDTO.getSenhaDentista());
-    // dentista.setCro(dentistaCadastroDTO.getCro());
-    // dentista.setTelefoneDentista(dentistaCadastroDTO.getTelefoneDentista());
-    // dentista.setEmailDentista(dentistaCadastroDTO.getEmailDentista());
-
-    // // Buscar a especialidade no banco com base no ID
-    // Especialidade especialidade =
-    // especialidadeRepository.findById(dentistaCadastroDTO.getEspecialidadeId())
-    // .orElseThrow(() -> new RuntimeException("Especialidade não encontrada"));
-
-    // dentista.setEspecialidade(especialidade);
-
-    // dentistaService.salvarDentista(dentista);
-
-    // return "login-dentista"; // Redireciona para a página home após o cadastro
-    // } catch (Exception e) {
-    // model.addAttribute("erro", "Erro ao cadastrar dentista.");
-    // System.out.println("ERRO INTERNO: " + e.getMessage());
-    // return "cadastro-dentista"; // Retorna para a página de cadastro com mensagem
-    // de erro
-    // }
-    // }
-
-    // CREATE CADASTRO V2 ---------------
-    // @PostMapping("/cadastro")
-    // public String cadastrarDentista(@ModelAttribute DentistaCadastroDTO
-    // dentistaCadastroDTO, Model model) {
-    // try {
-    // // Criação do objeto Dentista a partir do DTO
-    // Dentista dentista = new Dentista();
-    // dentista.setNomeDentista(dentistaCadastroDTO.getNomeDentista());
-    // dentista.setSenhaDentista(dentistaCadastroDTO.getSenhaDentista());
-    // dentista.setCro(dentistaCadastroDTO.getCro());
-    // dentista.setTelefoneDentista(dentistaCadastroDTO.getTelefoneDentista());
-    // dentista.setEmailDentista(dentistaCadastroDTO.getEmailDentista());
-
-    // // Descomente quando o banco voltar:
-    // Especialidade especialidade =
-    // especialidadeRepository.findById(dentistaCadastroDTO.getEspecialidadeId())
-    // .orElseThrow(() -> new RuntimeException("Especialidade não encontrada"));
-
-    // dentista.setEspecialidade(especialidade);
-
-    // dentistaService.salvarDentista(dentista);
-
-    // // Configura os parâmetros de sucesso para o toast na página de login
-    // model.addAttribute("paramTxtMensagem", "Cadastro realizado com sucesso!");
-    // model.addAttribute("paramTipoMensagem", "text-bg-success");
-    // return "login-dentista"; // Redireciona para a página de login
-    // } catch (Exception e) {
-    // // Em caso de erro, mantém os dados do formulário e adiciona mensagem de erro
-    // model.addAttribute("dentistaCadastroDTO", dentistaCadastroDTO); // Mantém os
-    // dados preenchidos
-    // model.addAttribute("paramTxtMensagem", "Erro ao cadastrar dentista");
-    // model.addAttribute("paramTipoMensagem", "text-bg-danger");
-    // return "cadastro-dentista"; // Retorna para a página de cadastro com toast
-    // }
-    // }
-
-    @PostMapping("/cadastro")
+    @PostMapping("/cadastro") // Mapeia a requisição HTTP POST para o endpoint "/cadastro"
     public String cadastrarDentista(@ModelAttribute DentistaCadastroDTO dentistaCadastroDTO, Model model) {
-        try {
-            Dentista dentista = new Dentista();
-            dentista.setNomeDentista(dentistaCadastroDTO.getNomeDentista());
-            dentista.setSenhaDentista(dentistaCadastroDTO.getSenhaDentista());
-            dentista.setCro(dentistaCadastroDTO.getCro());
-            dentista.setTelefoneDentista(dentistaCadastroDTO.getTelefoneDentista());
-            dentista.setEmailDentista(dentistaCadastroDTO.getEmailDentista());
-            Especialidade especialidade = especialidadeRepository.findById(dentistaCadastroDTO.getEspecialidadeId())
-                    .orElseThrow(() -> new RuntimeException("Especialidade não encontrada"));
-            System.out.println("Dentista cadastrado (mock): " + dentista.getNomeDentista());
-            dentista.setEspecialidade(especialidade);
-            dentistaService.salvarDentista(dentista);
-            adicionarToast(model, "Cadastro realizado com sucesso!", "text-bg-success");
-            return "login-dentista";
-        } catch (Exception e) {
-            adicionarToast(model, "Erro ao cadastrar dentista", "text-bg-danger");
-            model.addAttribute("dentistaCadastroDTO", dentistaCadastroDTO);
-            return "cadastro-dentista";
-        }
-    }
+    try {
+        // Criação de um novo objeto Dentista
+        Dentista dentista = new Dentista();
+        
+        // Preenchendo os atributos do dentista com os dados do DTO recebido
+        dentista.setNomeDentista(dentistaCadastroDTO.getNomeDentista());
+        dentista.setSenhaDentista(dentistaCadastroDTO.getSenhaDentista());
+        dentista.setCro(dentistaCadastroDTO.getCro());
+        dentista.setTelefoneDentista(dentistaCadastroDTO.getTelefoneDentista());
+        dentista.setEmailDentista(dentistaCadastroDTO.getEmailDentista());
+
+        // Busca a especialidade informada no DTO no banco de dados
+        Especialidade especialidade = especialidadeRepository.findById(dentistaCadastroDTO.getEspecialidadeId())
+                .orElseThrow(() -> new RuntimeException("Especialidade não encontrada")); // Lança uma exceção caso a especialidade não seja encontrada
+
+        // Simula a exibição do nome do dentista cadastrado no console (útil para depuração)
+        System.out.println("Dentista cadastrado (mock): " + dentista.getNomeDentista());
+
+        // Associa a especialidade ao dentista
+        dentista.setEspecialidade(especialidade);
+
+        // Salva o dentista no banco de dados utilizando o serviço
+        dentistaService.salvarDentista(dentista);
+
+        // Adiciona uma mensagem de sucesso ao modelo para exibição na página
+        adicionarToast(model, "Cadastro realizado com sucesso!", "text-bg-success");
+
+        // Redireciona para a página de login do dentista após o cadastro bem-sucedido
+        return "login-dentista";
+       } catch (Exception e) {
+        // Em caso de erro, adiciona uma mensagem de erro ao modelo
+        adicionarToast(model, "Erro ao cadastrar dentista", "text-bg-danger");
+
+        // Mantém os dados do formulário para que o usuário possa corrigir possíveis erros
+        model.addAttribute("dentistaCadastroDTO", dentistaCadastroDTO);
+
+        // Retorna para a página de cadastro do dentista
+        return "cadastro-dentista";
+       }
+   }
+
 
     // Tela de login de dentista
     @GetMapping("/login")
@@ -196,11 +150,6 @@ public class AuthController {
         }
     }
 
-    // @GetMapping("/perfil")
-    // public String exibirPerfil() {
-    // return "perfil"; // A view será a página login.html
-    // }
-
     @GetMapping("/perfil")
     public String exibirPerfil(HttpSession session, Model model) {
         Long dentistaId = (Long) session.getAttribute("dentistaId"); // Recupera o ID da sessão
@@ -219,71 +168,38 @@ public class AuthController {
         }
     }
 
-    // UPDATE PERFIL V1 ---------------
-    // @PostMapping("/perfil/atualizar")
-    // public String atualizarPerfil(@ModelAttribute Dentista dentista, HttpSession
-    // session) {
-    // Long dentistaId = (Long) session.getAttribute("dentistaId");
-
-    // if (dentistaId == null || !dentistaId.equals(dentista.getIdDentista())) {
-    // return "redirect:/dentista/login"; // Redireciona se não estiver logado ou
-    // tentar alterar outro perfil
-    // }
-
-    // dentistaService.atualizarDentista(dentista);
-    // return "redirect:/dentista/perfil"; // Redireciona para o perfil atualizado
-    // }
-
-    // UPDATE PERFIL V2 ---------------
-    // @PostMapping("/perfil/atualizar")
-    // public String atualizarPerfil(@ModelAttribute Dentista dentista, HttpSession
-    // session, Model model) {
-    // Long dentistaId = (Long) session.getAttribute("dentistaId");
-
-    // // Verifica se o dentista está logado e se o ID corresponde
-    // if (dentistaId == null || !dentistaId.equals(dentista.getIdDentista())) {
-    // model.addAttribute("paramTxtMensagem", "Acesso negado. Faça login
-    // novamente.");
-    // model.addAttribute("paramTipoMensagem", "text-bg-danger");
-    // return "perfil"; // Retorna para a página com mensagem de erro
-    // }
-
-    // try {
-    // // Simulação de atualização (substitui dentistaService.atualizarDentista)
-    // System.out.println("Dentista atualizado (mock): " +
-    // dentista.getNomeDentista());
-    // dentistaService.atualizarDentista(dentista);
-
-    // // Configura os parâmetros de sucesso
-    // model.addAttribute("paramTxtMensagem", "Perfil atualizado com sucesso!");
-    // model.addAttribute("paramTipoMensagem", "text-bg-success");
-    // } catch (Exception e) {
-    // // Simulação de erro
-    // model.addAttribute("paramTxtMensagem", "Erro ao atualizar o perfil.");
-    // model.addAttribute("paramTipoMensagem", "text-bg-danger");
-    // }
-
-    // // Re-adiciona o objeto dentista ao model para manter o formulário preenchido
-    // model.addAttribute("dentista", dentista);
-    // return "perfil"; // Retorna para a mesma página com o toast
-    // }
-
-    @PostMapping("/perfil/atualizar")
+    @PostMapping("/perfil/atualizar") // Mapeia a requisição HTTP POST para o endpoint "/perfil/atualizar"
     public String atualizarPerfil(@ModelAttribute Dentista dentista, HttpSession session, Model model) {
-        Long dentistaId = (Long) session.getAttribute("dentistaId");
-        if (dentistaId == null || !dentistaId.equals(dentista.getIdDentista())) {
-            adicionarToast(model, "Acesso negado. Faça login novamente.", "text-bg-danger");
-            return "perfil";
-        }
-        try {
-            System.out.println("Dentista atualizado (mock): " + dentista.getNomeDentista());
-            dentistaService.atualizarDentista(dentista);
-            adicionarToast(model, "Perfil atualizado com sucesso!", "text-bg-success");
-        } catch (Exception e) {
-            adicionarToast(model, "Erro ao atualizar o perfil.", "text-bg-danger");
-        }
-        model.addAttribute("dentista", dentista);
+    
+    // Obtém o ID do dentista armazenado na sessão
+    Long dentistaId = (Long) session.getAttribute("dentistaId");
+
+    // Verifica se o ID do dentista na sessão é válido e corresponde ao ID do dentista que está sendo atualizado
+    if (dentistaId == null || !dentistaId.equals(dentista.getIdDentista())) {
+        // Se não corresponder, exibe uma mensagem de erro e retorna para a página de perfil
+        adicionarToast(model, "Acesso negado. Faça login novamente.", "text-bg-danger");
         return "perfil";
+    }
+
+    try {
+        // Simula a exibição do nome do dentista atualizado no console (útil para depuração)
+        System.out.println("Dentista atualizado (mock): " + dentista.getNomeDentista());
+
+        // Chama o serviço para atualizar os dados do dentista no banco de dados
+        dentistaService.atualizarDentista(dentista);
+
+        // Adiciona uma mensagem de sucesso ao modelo para exibição na página
+        adicionarToast(model, "Perfil atualizado com sucesso!", "text-bg-success");
+    } catch (Exception e) {
+        // Em caso de erro, adiciona uma mensagem de erro ao modelo
+        adicionarToast(model, "Erro ao atualizar o perfil.", "text-bg-danger");
+    }
+
+    // Adiciona o objeto dentista atualizado ao modelo para exibição na página de perfil
+    model.addAttribute("dentista", dentista);
+
+    // Retorna para a página de perfil
+    return "perfil";
     }
 
 }
